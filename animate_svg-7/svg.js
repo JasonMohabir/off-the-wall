@@ -7,44 +7,42 @@ var dvd = document.getElementById("dvd");
 var stop = document.getElementById("stop");
 var clear = document.getElementById("clear");
 
-function clear() {
-    while (s.firstChild) {
-	s.removeChild(s.firstChild);
+var rid;
+
+
+var clearIt = function() {
+    while (svg.firstChild) {
+	svg.removeChild(svg.firstChild);
     }
 };
 
-var addCircle = function(x,y,r){
-    
-
-    return c;
-
-}
 
 var animateCircle = function(){
 
-    clear();
+    clearIt();
     window.cancelAnimationFrame(rid);
 
-    var rad = 0;
+    var r = 0;
     var d_rad= 1;
 
     var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     c.setAttribute("cx", width/2);
     c.setAttribute("cy", height/2);
-    c.setAttribute("r", rad);    
+    c.setAttribute("r", r);    
     c.setAttribute("fill", "black");
 
     svg.appendChild(c);
 
     var drawCircle = function(){
 
-        if (rad == c.height/2) { d_rad = -1;}
-        else if (rad == 0) {d_rad = 1;}
+        if (r == height/2) { d_rad = -1;}
+        else if (r == 0) {d_rad = 1;}
 
 	r += d_rad
+
 	c.setAttribute("r", r.toString());
 	
-	rid = window.requestAnimationFrame(drawCirlce);
+	rid = window.requestAnimationFrame(drawCircle);
 	
     };
     drawCircle();
@@ -68,7 +66,7 @@ var makeImg = function(x, y, h, w, link){
 
 
 
-var dvdAnim = function(){
+var loadDVD = function(){
 
     clear();
     window.cancelAnimationFrame(rid);
@@ -116,12 +114,12 @@ var dvdAnim = function(){
     
 };
 
-var stopAll = function(){
+var stopIt = function(){
     window.cancelAnimationFrame(rid);
 };
 
 circle.addEventListener( 'click', animateCircle );
 dvd.addEventListener( 'click', loadDVD );
 stop.addEventListener( 'click', stopIt );
-clear.addEventListener("click", clear);
+clear.addEventListener("click", clearIt);
 
