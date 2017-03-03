@@ -9,6 +9,7 @@ var clear = document.getElementById("clear");
 
 var rid;
 
+var imageLink = "https://upload.wikimedia.org/wikipedia/en/thumb/1/18/Dvd-video-logo.svg/1280px-Dvd-video-logo.svg.png";
 
 var clearIt = function() {
     while (svg.firstChild) {
@@ -49,68 +50,49 @@ var animateCircle = function(){
     
 };
 
-
-var makeImg = function(x, y, h, w, link){
-    
-    var c = document.createElementNS("http://www.w3.org/2000/svg", "image");
-    
-    c.setAttribute("xlink:href", link);
-    c.setAttribute("x", x);
-    c.setAttribute("y", y);
-    c.setAttribute("height", h);
-    c.setAttribute("width", w);
-    
-    return c;
-    
-};
-
-
-
 var loadDVD = function(){
 
-    clear();
+    clearIt();
+
     window.cancelAnimationFrame(rid);
-    var xVel = 2;
-    var yVel = 2;
-    var x = width / 4 + Math.random() * width / 2;
-    var y = height / 4 + Math.random() * height / 2;
-    var imgW = width/6;
-    var imgH = height/6;
-    var speed = 2;
-    var xDir = 1, yDir = 1;
+
+    var xvol = 1;
+    var yvol = 1;
+
+    var x = Math.random()*width;
+    var y = Math.random()*height;
+
+    var image_w = width/8;
+    var image_h = height/8;
+    var offset = 50;
+
+    //var c = document.createElementNS("http://www.w3.org/2000/svg", "image");
+    var c = document.createElementNS("http://www.w3.org/2000/svg", "rect");  
+    c.setAttribute("x", x);
+    c.setAttribute("y", y);
+    c.setAttribute("width", 50);
+    c.setAttribute("height", 50);
+    c.setAttribute("fill", "black");
+
+    svg.appendChild(c);
     
-    var c = makeImg(x, y, imgH, imgW, imgLink);
-    svgImage.appendChild(c);
-    
-    var anim = function(){
-	
-	xVel = xDir * speed;
-	yVel = yDir * speed;
-	x += xVel * speed;
-	y += yVel * speed;
+    var drawDVD = function(){
+		
+	x += xvol;
+	y += yvol;
 
 	c.setAttribute("x", x.toString());
 	c.setAttribute("y", y.toString());
+
+        if (x>=width-offset) { xvol = -1; }
+        if (y>=height-offset) { yvol = -1; }
+        if (x<=0) { xvol = 1; }
+        if (y<=0) { yvol = 1; }
 	
-	if (xVel >= 0 && x + imgW >= width){
-	    xDir = -1;
-	}
-	if (xVel <= 0 && x <= 0){
-	    xDir = 1;
-	}
-	if (yVel >= 0 && y + imgH >= height){
-	    yDir = -1;
-	}
-	if (yVel <= 0 && y <= 0){
-	    yDir = 1;
-	}
-	
-	rid = window.requestAnimationFrame(anim);
-	
+	rid = window.requestAnimationFrame(drawDVD);
     }
     
-    anim();
-    
+    drawDVD();    
     
 };
 
